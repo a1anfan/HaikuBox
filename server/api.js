@@ -14,17 +14,17 @@ var User = mongoose.model('User', {
 });
 
 // If the database is empty, insert some dummy data into it
-User.find((err, users) => {
-  if(users.length == 0) {
-    var testUsers = [
-      { name: 'Alan', desc : 'gamah' },
-      { name: 'Westoo', desc : 'absolute gamah' },
-      { name: 'Ali', desc : 'apex legends player' }
-    ];
+// User.find((err, users) => {
+//   if(users.length == 0) {
+//     var testUsers = [
+//       { name: 'Alan', desc : 'gamah' },
+//       { name: 'Westoo', desc : 'absolute gamah' },
+//       { name: 'Ali', desc : 'apex legends player' }
+//     ];
 
-    User.collection.insert(testUsers, (err, users) => { if (err) console.log(err); })
-  }
-});
+//     User.collection.insert(testUsers, (err, users) => { if (err) console.log(err); });
+//   }
+// });
 
 // Now, we list all of our routes.
 // Note that the actual routes you specify here will be prefixed by /api
@@ -42,9 +42,9 @@ router.get('/users', (req, res) => {
 });
 
 //Routed to POST /api/users
-// router.post('/users', (req, res) => {
-//   const doc = new Message({message: req.body.message});
-//   doc.save();
-// });
+router.post('/users', (req, res) => {
+  const newDocument = new User({ name: req.body.name, desc : req.body.desc });
+  newDocument.save();
+});
 
-module.exports = router
+module.exports = router;

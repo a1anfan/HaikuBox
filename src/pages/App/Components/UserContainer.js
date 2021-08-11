@@ -28,7 +28,7 @@ export default class UserContainer extends Component {
 		.catch(function(err) {
 			console.log('Fetch Error :-S', err);
 		});
-		console.log('Fetch has been attempted.');
+		console.log('Fetch to get users has been attempted.');
 	}
 
 	render() {

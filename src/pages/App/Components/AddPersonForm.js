@@ -4,7 +4,7 @@ import '../style.css';
 export default class AddPersonForm extends Component {
     constructor(props) {
         super(props);
-        this.state = { name: "", description: "" }
+        this.state = { name: "", description: "" };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
     }
@@ -20,24 +20,20 @@ export default class AddPersonForm extends Component {
     }
     
     handleSubmit(event) {
+        event.preventDefault();
         let dataBody = {
-            name: this.state.name,
-            desc: this.state.description
-        }
+            'name': this.state.name,
+            'desc': this.state.description
+        };
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ dataBody })
+            body: JSON.stringify(dataBody),
+            headers: { 'Content-Type': 'application/json' }
         };
-        fetch('https://locahost:8999/api/users', requestOptions)
+        return fetch('/api/users/', requestOptions)
             .then(response => response.json())
-            .then(data => console.log(data));
-
-
-        this.setState({
-            name: "",
-            description: ""
-        });
+            .then(data => console.log(`Data: ${data}`));
+            //.then(event.target.reset());
     }
 
     render() {
