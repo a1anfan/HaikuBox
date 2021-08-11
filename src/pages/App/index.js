@@ -8,9 +8,6 @@ class App extends Component {
     return (
       <div className="App">
         <AddPersonForm />
-        <p className="App-intro">
-          Here is a list of people:
-        </p>
         <UserContainer />
       </div>
     );

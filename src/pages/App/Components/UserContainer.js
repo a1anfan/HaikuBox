@@ -14,8 +14,7 @@ export default class UserContainer extends Component {
 			.then(
 				function(response) {
 				if (response.status !== 200) {
-					console.log('Looks like there was a problem. Status Code: ' +
-					response.status);
+					console.log(`Looks like there was a problem. Status Code: ${response.status}`);
 					return;
 				}
 
@@ -32,8 +31,21 @@ export default class UserContainer extends Component {
 	}
 
 	render() {
+		let content;
+		if (this.state.users.length > 0) {
+			content = 
+				<p className="App-intro">
+					Here is a list of people:
+				</p>;
+		} else {
+			content = 
+				<p className="App-intro">
+					There are no people to show yet. Post someone using the form above!
+				</p>;
+		}
 		return (
 			<div>
+				{content}
 				{this.state.users.map((user) => (
 					<User key={user._id} name={user.name} desc={user.desc} />
 				))}

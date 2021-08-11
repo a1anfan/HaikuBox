@@ -4,7 +4,8 @@ import '../style.css';
 export default class AddPersonForm extends Component {
     constructor(props) {
         super(props);
-        this.state = { name: "", description: "" };
+        let initialState = { name: "", description: "" };
+        this.state = initialState;
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
     }
@@ -32,22 +33,25 @@ export default class AddPersonForm extends Component {
         };
         return fetch('/api/users/', requestOptions)
             .then(response => response.json())
-            .then(data => console.log(`Data: ${data}`));
-            //.then(event.target.reset());
+            .then(data => console.log(`Data: ${data}`))
+            .then(this.setState(() => this.initialState));
     }
 
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
+                <br></br>
                 <label>
                     Name: 
                     <input name="name" type="text" value={this.state.name} onChange={this.handleInputChange} required/>
                 </label>
                 <br></br>
+                <br></br>
                 <label>
                     Description: 
                     <input name="description" type="text" value={this.state.description} onChange={this.handleInputChange}/>
                 </label>
+                <br></br>
                 <br></br>
                 <input type="submit" value="Submit"/>
             </form>
