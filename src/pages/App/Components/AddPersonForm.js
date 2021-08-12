@@ -21,7 +21,6 @@ export default class AddPersonForm extends Component {
     }
     
     handleSubmit(event) {
-        event.preventDefault();
         let dataBody = {
             'name': this.state.name,
             'desc': this.state.description
@@ -31,10 +30,10 @@ export default class AddPersonForm extends Component {
             body: JSON.stringify(dataBody),
             headers: { 'Content-Type': 'application/json' }
         };
+        this.setState(() => this.initialState);
         return fetch('/api/users/', requestOptions)
             .then(response => response.json())
-            .then(data => console.log(`Data: ${data}`))
-            .then(this.setState(() => this.initialState));
+            .then(data => console.log(`Data: ${data}`));
     }
 
     render() {
