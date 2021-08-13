@@ -47,4 +47,8 @@ router.post('/users', (req, res) => {
   newDocument.save();
 });
 
+router.delete('/users', (req, res) => {
+  
+});
+
 module.exports = router;

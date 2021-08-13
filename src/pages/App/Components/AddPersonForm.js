@@ -33,7 +33,8 @@ export default class AddPersonForm extends Component {
         this.setState(() => this.initialState);
         return fetch('/api/users/', requestOptions)
             .then(response => response.json())
-            .then(data => console.log(`Data: ${data}`));
+            .then(data => console.log(`Data: ${data}`))
+            .then(window.location.replace("/")); // reloads the page
     }
 
     render() {
