@@ -68,7 +68,7 @@ export default class Register extends Component {
     const {register, error, usernameTaken} = this.state;
     return (
         <div className="Registration">
-          <h1> Create an Account </h1>
+          <h1> Create New Account </h1>
           <form onSubmit={this.onSubmit}>
               <div>
                   <div className="fields">
@@ -103,7 +103,7 @@ export default class Register extends Component {
                       className="btn btn-primary"
                       disabled={usernameTaken}
                   >
-                      {' '}Register{' '}
+                      {' '}Sign Up{' '}
                   </button>
                   {' '}
                   <Link to="/login"> Already have an account? </Link>

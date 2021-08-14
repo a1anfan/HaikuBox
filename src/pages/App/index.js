@@ -8,9 +8,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Link to="/login">Login</Link>
+        <Link to="/login">Log In</Link>
         <br></br>
-        <Link to="/register">Register</Link>
+        <Link to="/register">Sign Up</Link>
         <AddPersonForm />
         <UserContainer />
       </div>

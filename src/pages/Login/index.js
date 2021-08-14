@@ -87,7 +87,7 @@ export default class Login extends Component {
                 className="btn btn-primary"
               >
                 {' '}
-                  Login    {' '}
+                  Log In    {' '}
               </button>{' '}
                   <Link to="/register">
                      Register </Link>  {' '}
