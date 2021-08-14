@@ -5,12 +5,24 @@
 const express = require('express');
 var router = express.Router();  // get an instance of the express Router
 var mongoose   = require('mongoose');
+var bcrypt = require('bcryptjs');
 mongoose.connect('mongodb://127.0.0.1/my_database', { useNewUrlParser: true, useUnifiedTopology: true });
 
 //Define our schema for User
 var User = mongoose.model('User', {
-  name: String,
-  desc: String
+  username: {
+      type: String,
+      lowercase: true,
+      unique: true,
+      required: [true, "can't be blank"],
+      match: [/^[a-zA-Z0-9]+$/, 'is invalid'],
+      index: true,
+  },
+  password: {
+      type: String,
+      required: true,
+      trim: true
+  }
 });
 
 // If the database is empty, insert some dummy data into it
@@ -42,13 +54,37 @@ router.get('/users', (req, res) => {
 });
 
 //Routed to POST /api/users
-router.post('/users', (req, res) => {
-  const newDocument = new User({ name: req.body.name, desc : req.body.desc });
-  newDocument.save();
+// router.post('/users', (req, res) => {
+//   const newDocument = new User({ name: req.body.name, desc : req.body.desc });
+//   newDocument.save();
+// });
+
+router.post('/register', (req, res) => {
+  let newUser = new User(req.body);
+  newUser.save()
+    .then(reg => {
+        res.sendStatus(200);
+    })
+    .catch(err => {
+        res.status(400).send("Failed to store to database");
+    });
 });
 
-router.delete('/users', (req, res) => {
-  
+router.post('/login', (req, res) => {
+  User.findOne({ username: req.body.username })
+    .then(user => {
+        console.log("User from login", user)
+        if (!user) res.sendStatus(204);
+        else {
+            bcrypt.compare(req.body.password, user.password)
+                .then(passwordMatch => passwordMatch ? res.sendStatus(200) : res.sendStatus(204))
+        }
+    });
+});
+
+router.post('/validateUsername', (req, res) => {
+  User.findOne({ username: req.body.username })
+    .then(user => user ? res.sendStatus(204) : res.sendStatus(200));
 });
 
 module.exports = router;

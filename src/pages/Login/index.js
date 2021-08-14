@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import LoginService from '../services/LoginService';
-import Message from '../elements/Message';
-import Error from '../elements/Error';
+import { Link } from 'react-router';
+import LoginService from '../../services/LoginService';
+import Message from '../App/Components/Message';
+import Error from '../App/Components/Error';
+import './style.css';
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      user_name: '',
+      username: '',
       password: '',
       error: false,
       loginSuccess: false,
@@ -18,7 +19,7 @@ export default class Login extends Component {
 
   handleOnChangeUserName = (e) => {
     this.setState({
-      user_name: e.target.value,
+      username: e.target.value,
     });
   };
 
@@ -30,7 +31,7 @@ export default class Login extends Component {
 
   onSubmit = async (e) => {
     const data = {
-      user_name: this.state.user_name,
+      username: this.state.username,
       password: this.state.password,
     };
     const loginResult = await LoginService(data);
@@ -96,8 +97,8 @@ export default class Login extends Component {
           </div>{' '}
            {' '}
         </form>{' '}
-            {loginSuccess && <Message message="Successfully logged in!" />}    {' '}
-        {error && <Error message="There was an error logging in." />}    {' '}
+        {loginSuccess && <Message message="Successfully logged in!" />}    {' '}
+        {error && <Error message="Username or password was incorrect." />}    {' '}
       </div>
     );
   }
