@@ -6,6 +6,7 @@ const express = require('express');
 var router = express.Router();  // get an instance of the express Router
 var mongoose   = require('mongoose');
 var bcrypt = require('bcryptjs');
+var jwt = require('jsonwebtoken');
 mongoose.connect('mongodb://127.0.0.1/my_database', { useNewUrlParser: true, useUnifiedTopology: true });
 
 //Define our schema for User
@@ -78,13 +79,43 @@ router.post('/login', (req, res) => {
         else {
             bcrypt.compare(req.body.password, user.password)
                 .then(passwordMatch => passwordMatch ? res.sendStatus(200) : res.sendStatus(204))
+                .then(jwt.sign(user, 'secret_key', {expiresIn: '1d'}, (err, token) => { // Token expires in one day
+                  res.json({
+                    token
+                })
+                .then(console.log("User has successfully logged in and token has been generated."));
+                }));
         }
-    });
+    })
 });
 
 router.post('/validateUsername', (req, res) => {
   User.findOne({ username: req.body.username })
     .then(user => user ? res.sendStatus(204) : res.sendStatus(200));
 });
+
+router.post('/me', verifyToken, (req, res) => {
+  jwt.verify(req.token, 'secret_key', (err, authData) => {
+    if (err) { // Token is invalid
+      res.sendStatus(403) // Send 'Forbidden' status
+      window.location.replace('login'); // Redirect to login page
+    } else {
+      //TODO: FIND USER'S HAIKUS
+    }
+  });
+
+})
+
+function verifyToken(req, res, next) {
+  const bearerHeader = req.headers['authorization'];
+  if (typeof bearerHeader !== undefined) {
+    const token = bearerHeader.split(' ')[1]; // Parses the header to get the token
+    req.token = token;
+    next();
+  } else {  // Token is invalid
+    res.sendStatus(403) // Send 'Forbidden' status
+    window.location.replace('/login'); // Redirect to login page
+  }
+}
 
 module.exports = router;
