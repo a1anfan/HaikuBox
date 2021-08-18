@@ -21,10 +21,10 @@ export default class AddPersonForm extends Component {
             headers: {'Content-Type': 'application/json'}
         };
         this.setState(() => this.initialState);
-        return fetch('/api/haikus/', requestOptions)
+        return fetch('/api/haiku/', requestOptions)
             .then(response => response.json())
             .then(data => console.log(`Data: ${data}`))
-            //.then(window.location.replace('/')); // reloads the page
+            //.then(window.location.replace('/')); // reloads this page
     }
 
     render() {

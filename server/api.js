@@ -69,7 +69,7 @@ var User = mongoose.model('User', userSchema);
 //   }
 // });
 
-router.post('/haikus', (req, res) => {
+router.post('/haiku', (req, res) => {
   User.findOne({ username: req.body.username })
     .then(userToUpdate => {
       if (!userToUpdate) res.sendStatus(204);
