@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './style.css';
-import UserContainer from './Components/UserContainer';
-import AddPersonForm from './Components/AddPersonForm';
+import HaikuForm from './Components/HaikuForm';
 import {Link} from 'react-router';
 
 class App extends Component {
@@ -11,8 +10,9 @@ class App extends Component {
         <Link to="/login">Log In</Link>
         <br></br>
         <Link to="/register">Sign Up</Link>
-        <AddPersonForm />
-        <UserContainer />
+        <br></br>
+        <br></br>
+        <HaikuForm />
       </div>
     );
   }

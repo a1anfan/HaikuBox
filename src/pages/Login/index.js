@@ -40,11 +40,13 @@ export default class Login extends Component {
         error: true,
         loginSuccess: false,
       });
-    } else
+    } else {
       this.setState({
         loginSuccess: true,
         error: false,
       });
+      window.location.replace('/');
+    }  
   };
 
   render() {
@@ -89,8 +91,8 @@ export default class Login extends Component {
                 {' '}
                   Log In    {' '}
               </button>{' '}
-                  <Link to="/register">
-                     Register </Link>  {' '}
+                  <Link to="/"> Cancel </Link>
+                  <Link to="/register"> Register </Link>  {' '}
                {' '}
             </div>{' '}
                {' '}

@@ -46,6 +46,7 @@ export default class Register extends Component {
     const data = {
       username: this.state.username,
       password: this.state.password,
+      haiku: []
     };
 
     const registerStatus = await UserRegistration (data);
@@ -56,6 +57,7 @@ export default class Register extends Component {
         register: true,
         error: false,
       });
+      window.location.replace('/');
     } else {
         this.setState ({
             error: true,
@@ -106,6 +108,7 @@ export default class Register extends Component {
                       {' '}Sign Up{' '}
                   </button>
                   {' '}
+                  <Link to="/"> Cancel </Link>
                   <Link to="/login"> Already have an account? </Link>
                   {' '}
                   </div>{' '}
