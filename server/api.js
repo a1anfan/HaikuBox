@@ -89,6 +89,7 @@ router.post('/register', (req, res) => {
   newUser.save()
     .then(reg => {
         res.sendStatus(200);
+
     })
     .catch(err => {
         res.status(400).send("Failed to store to database");
@@ -103,7 +104,7 @@ router.post('/login', (req, res) => {
         else {
             bcrypt.compare(req.body.password, user.password)
               .then(passwordMatch => passwordMatch ? res.sendStatus(200) : res.sendStatus(204))
-              .then(jwt.sign(user, 'secret_key', {expiresIn: '1d'}, (err, token) => { // Token expires in one day
+              .then(jwt.sign(user, 'secret_key', {expiresIn: '2d'}, (err, token) => { // Token expires in one day
                 res.json({
                   token
               })
@@ -133,7 +134,6 @@ router.post('/me', verifyToken, (req, res) => {
         });
     }
   });
-
 })
 
 function verifyToken(req, res, next) {
