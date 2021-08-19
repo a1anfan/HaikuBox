@@ -10,7 +10,7 @@ export default class Me extends Component {
 
     componentDidMount() {
 		let currentComponent = this;
-		fetch('http://localhost:8999/api/me/')
+		fetch('/api/me/')
 			.then(
 				function(response) {
 				if (response.status !== 200) {
@@ -20,7 +20,7 @@ export default class Me extends Component {
 
 				response.json().then(function(data) {
 					console.log(data);
-					currentComponent.setState({users: data});
+					currentComponent.setState({haikus: data});
 				});
 			}
 		)

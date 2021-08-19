@@ -130,7 +130,7 @@ router.post('/me', verifyToken, (req, res) => {
     } else {
       User.findOne({ username: req.body.username })
         .then(user => {
-          if (!user) res.sendStatus(204);
+          if (!user) res.sendStatus(204); // Send 'No Content' status
           else {
             res.json(user.haikus);
           }
