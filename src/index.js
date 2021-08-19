@@ -7,6 +7,7 @@ import App from './pages/App';
 import About from './pages/About';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Me from './pages/Me';
 import NotFound from './pages/NotFound';
 
 const Routes = (props) => (
@@ -15,6 +16,7 @@ const Routes = (props) => (
     <Route path="/about" component={About} />
     <Route path="/login" component={Login} />
     <Route path="/register" component={Register} />
+    <Route path="/me" component={Me} />
     <Route path="*" component={NotFound} />
   </Router>
 );

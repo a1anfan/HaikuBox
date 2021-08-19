@@ -15,9 +15,13 @@ export default class AddPersonForm extends Component {
     }
     
     handleSubmit(event) {
+        event.preventDefault();
+        var username = localStorage.getItem('username');
+        if (username === null) username = 'anonymous';
+        console.log(`The username rn is ${username}`);
         const requestOptions = {
             method: 'POST',
-            body: JSON.stringify({'haiku': this.state.haiku}),
+            body: JSON.stringify({'username': username, 'haiku': this.state.haiku}),
             headers: {'Content-Type': 'application/json'}
         };
         this.setState(() => this.initialState);

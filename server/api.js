@@ -72,7 +72,7 @@ var User = mongoose.model('User', userSchema);
 router.post('/haiku', (req, res) => {
   User.findOne({ username: req.body.username })
     .then(userToUpdate => {
-      if (!userToUpdate) res.sendStatus(204);
+      if (!userToUpdate) res.sendStatus(204); // 'No content' status
       else {
         if (userToUpdate.haikus !== undefined) {
           userToUpdate.haikus.push(req.body.haiku);
@@ -89,7 +89,6 @@ router.post('/register', (req, res) => {
   newUser.save()
     .then(reg => {
         res.sendStatus(200);
-
     })
     .catch(err => {
         res.status(400).send("Failed to store to database");
@@ -100,16 +99,20 @@ router.post('/login', (req, res) => {
   User.findOne({ username: req.body.username })
     .then(user => {
         console.log("User from login", user)
-        if (!user) res.sendStatus(204);
+        if (!user) res.sendStatus(204); // 'No content' status
         else {
             bcrypt.compare(req.body.password, user.password)
               .then(passwordMatch => passwordMatch ? res.sendStatus(200) : res.sendStatus(204))
-              .then(jwt.sign(user, 'secret_key', {expiresIn: '2d'}, (err, token) => { // Token expires in one day
-                res.json({
-                  token
-              })
+              .then(jwt.sign(user, 'secret_key', {expiresIn: '2d'}, (err, token) => { // Token expires in two days
+                if (err) {
+                  console.log(err);
+                } else {
+                  console.log("Putting stuff in local storage");
+                  localStorage.setItem('access_token', token);
+                  localStorage.setItem('username', user.username);
+                }
+              }))
               .then(console.log("User has successfully logged in and token has been generated."));
-              }));
         }
     })
 });
@@ -142,7 +145,7 @@ function verifyToken(req, res, next) {
     const token = bearerHeader.split(' ')[1]; // Parses the header to get the token
     req.token = token;
     next();
-  } else {  // Token is invalid
+  } else { // Token is invalid
     res.sendStatus(403) // Send 'Forbidden' status
     window.location.replace('/login'); // Redirect to login page
   }
