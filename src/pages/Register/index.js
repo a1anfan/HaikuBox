@@ -57,7 +57,7 @@ export default class Register extends Component {
         register: true,
         error: false,
       });
-      window.location.replace('/');
+      location.replace('/');
     } else {
         this.setState ({
             error: true,

@@ -105,13 +105,16 @@ router.post('/login', (req, res) => {
         else {
             bcrypt.compare(req.body.password, user.password)
               .then(passwordMatch => passwordMatch ? res.sendStatus(200) : res.sendStatus(204))
-              .then(jwt.sign(user, 'secret_key', {expiresIn: '2d'}, (err, token) => { // Token expires in two days
+              .then(jwt.sign(user.toJSON(), 'secret_key', {expiresIn: '2d'}, (err, token) => { // Token expires in two days
                 if (err) {
                   console.log(err);
                 } else {
-                  console.log("Putting stuff in local storage");
-                  localStorage.setItem('access_token', token);
-                  localStorage.setItem('username', user.username);
+                  console.log(token);
+                  console.log(user.username);
+                  res.json(token);
+                  // localStorage.setItem('access_token', token);
+                  // localStorage.setItem('username', user.username);
+                  console.log("Put stuff in local storage");
                 }
               }))
               .then(console.log("User has successfully logged in and token has been generated."));
@@ -124,11 +127,23 @@ router.post('/validateUsername', (req, res) => {
     .then(user => user ? res.sendStatus(204) : res.sendStatus(200));
 });
 
-router.post('/me', verifyToken, (req, res) => {
+// router.get('/users', (req, res) => {
+//   User.find((err, users) => {
+//     if(err) {
+//       console.log(err);
+//       res.send([]);
+//     } else {
+//       res.json(users);
+//     }
+//   });
+// });
+
+router.get('/me', verifyToken, (req, res) => {
   jwt.verify(req.token, 'secret_key', (err, authData) => {
     if (err) { // Token is invalid
-      res.sendStatus(403) // Send 'Forbidden' status
-      window.location.replace('login'); // Redirect to login page
+      console.log(err);
+      res.sendStatus(403); // Send 'Forbidden' status
+      // TODO: Redirect to login page
     } else {
       User.findOne({ username: req.body.username })
         .then(user => {
@@ -142,14 +157,18 @@ router.post('/me', verifyToken, (req, res) => {
 })
 
 function verifyToken(req, res, next) {
-  const bearerHeader = req.headers['authorization'];
+  const bearerHeader = req.headers['token'];
+  // console.log(bearerHeader + " haiiiii westoo");
+  // console.log(typeof bearerHeader);
+  // haiiii
   if (typeof bearerHeader !== undefined) {
-    const token = bearerHeader.split(' ')[1]; // Parses the header to get the token
-    req.token = token;
+    const bearer = bearerHeader.split(' ');
+    bearerToken = bearer[1]; // Parses the header to get the token
+    req.token = bearerToken;
     next();
   } else { // Token is invalid
     res.sendStatus(403) // Send 'Forbidden' status
-    window.location.replace('/login'); // Redirect to login page
+    location.replace('/login'); // Redirect to login page
   }
 }
 

@@ -34,7 +34,11 @@ export default class Login extends Component {
       username: this.state.username,
       password: this.state.password,
     };
-    const loginResult = await LoginService(data);
+    
+    // const loginResult = await LoginService(data);
+    //console.log(loginResult.res.token);
+    localStorage.setItem('access_token', loginResult.json());
+	// localStorage.setItem('username', loginResult.username);
     if (loginResult !== 200) {
       this.setState({
         error: true,
@@ -45,7 +49,7 @@ export default class Login extends Component {
         loginSuccess: true,
         error: false,
       });
-      window.location.replace('/');
+      //location.replace('/');
     }  
   };
 

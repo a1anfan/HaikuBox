@@ -9,15 +9,17 @@ export default class Me extends Component {
 	}
 
     componentDidMount() {
+        console.log("apex legendsss");
 		let currentComponent = this;
+        console.log("hai westoo here is tha stuff " + localStorage.getItem("access_token"));
         const requestOptions = {
             method: "GET",
             headers: {
-              "content-type": "application/json",
-              token: localStorage.getItem("access_token")
+              'content-type': "application/json",
+              'token': localStorage.getItem("access_token")
             }
         }
-		fetch('/api/me/', requestOptions)
+		fetch('/api/me', requestOptions)
 			.then(
 				function(response) {
 				if (response.status !== 200) {

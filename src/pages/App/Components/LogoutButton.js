@@ -8,7 +8,7 @@ export default class LogoutButton extends Component {
 
     onClick(event) {
         localStorage.clear();
-        window.location.replace('/');
+        location.replace('/');
     }
 
     render() {

@@ -9,7 +9,11 @@ export const UserRegistration = data => {
     data["password"] = hash;
 
     return axios.post('http://localhost:8999/api/register', data)
-        .then(res => res.status);
+        .then((res) => {
+            localStorage.setItem('access_token', res.token)
+            localStorage.setItem('username', res.username)
+            return res.status;
+        })
 };
 
 export const UsernameValidation = data => (
