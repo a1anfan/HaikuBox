@@ -10,7 +10,14 @@ export default class Me extends Component {
 
     componentDidMount() {
 		let currentComponent = this;
-		fetch('/api/me/')
+        const requestOptions = {
+            method: "GET",
+            headers: {
+              "content-type": "application/json",
+              token: localStorage.getItem("access_token")
+            }
+        }
+		fetch('/api/me/', requestOptions)
 			.then(
 				function(response) {
 				if (response.status !== 200) {

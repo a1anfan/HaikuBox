@@ -60,13 +60,15 @@ var User = mongoose.model('User', userSchema);
 // Note that the actual routes you specify here will be prefixed by /api
 
   
-// User.find((err, users) => {
-//   if(err) {
-//     console.log(err);
-//     res.send([]);
-//   } else {
-//     res.json(users);
-//   }
+// router.get('/users', (req, res) => {
+//   User.find((err, users) => {
+//     if(err) {
+//       console.log(err);
+//       res.send([]);
+//     } else {
+//       res.json(users);
+//     }
+//   });
 // });
 
 router.post('/haiku', (req, res) => {
