@@ -41,6 +41,7 @@ const userSchema = new Schema({
   haikus: [haikuSchema]
 });
 
+var Haiku = mongoose.model('Haiku', haikuSchema);
 var User = mongoose.model('User', userSchema);
 
 // If the database is empty, insert some dummy data into it
@@ -76,10 +77,15 @@ router.post('/haiku', (req, res) => {
     .then(userToUpdate => {
       if (!userToUpdate) res.sendStatus(204); // 'No content' status
       else {
+        console.log("uhhhh haiku about to be pushed is " + req.body.haiku);
+        let newHaikuSchema = new Haiku({
+          haiku: req.body.haiku,
+          dateCreated: Date.now()
+        });
         if (userToUpdate.haikus !== undefined) {
-          userToUpdate.haikus.push(req.body.haiku);
+          userToUpdate.haikus.push(newHaikuSchema);
         } else {
-          userToUpdate.haikus = [req.body.haiku];
+          userToUpdate.haikus = [newHaikuSchema];
         }
         userToUpdate.save();
       }
@@ -104,14 +110,14 @@ router.post('/login', (req, res) => {
         if (!user) res.sendStatus(204); // 'No content' status
         else {
             bcrypt.compare(req.body.password, user.password)
-              .then(passwordMatch => passwordMatch ? res.sendStatus(200) : res.sendStatus(204))
+              //.then(passwordMatch => passwordMatch ? res.sendStatus(200) : res.sendStatus(204))
               .then(jwt.sign(user.toJSON(), 'secret_key', {expiresIn: '2d'}, (err, token) => { // Token expires in two days
                 if (err) {
                   console.log(err);
                 } else {
                   console.log(token);
                   console.log(user.username);
-                  res.json(token);
+                  res.json({token: token, username: user.username});
                   // localStorage.setItem('access_token', token);
                   // localStorage.setItem('username', user.username);
                   console.log("Put stuff in local storage");
@@ -139,16 +145,19 @@ router.post('/validateUsername', (req, res) => {
 // });
 
 router.get('/me', verifyToken, (req, res) => {
-  jwt.verify(req.token, 'secret_key', (err, authData) => {
+  console.log("zombs nation " + req.headers['token']);
+  jwt.verify(req.headers['token'], 'secret_key', (err, authData) => {
     if (err) { // Token is invalid
       console.log(err);
       res.sendStatus(403); // Send 'Forbidden' status
       // TODO: Redirect to login page
     } else {
-      User.findOne({ username: req.body.username })
+      console.log("tha user name isss " + req.headers['username']);
+      User.findOne({ username: req.headers['username'] })
         .then(user => {
           if (!user) res.sendStatus(204); // Send 'No Content' status
           else {
+            console.log("the haikus are... " + user.haikus);
             res.json(user.haikus);
           }
         });
@@ -157,6 +166,7 @@ router.get('/me', verifyToken, (req, res) => {
 })
 
 function verifyToken(req, res, next) {
+  console.log("weesypoo " + req.headers['token']);
   const bearerHeader = req.headers['token'];
   // console.log(bearerHeader + " haiiiii westoo");
   // console.log(typeof bearerHeader);
