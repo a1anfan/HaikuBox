@@ -11,30 +11,33 @@ export default class AddPersonForm extends Component {
     }
 
     handleInputChange(event) {
-        this.setState({haiku: event.target.haiku});
+        this.setState({haiku: event.target.value});
     }
     
     handleSubmit(event) {
         event.preventDefault();
         var username = localStorage.getItem('username');
         if (username === null) username = 'anonymous';
-        console.log(`The username rn is ${username}`);
+        let dataBody = {
+            'username': username,
+            'haiku': this.state.haiku
+        };
         const requestOptions = {
             method: 'POST',
-            body: JSON.stringify({'username': username, 'haiku': this.state.haiku}),
+            body: JSON.stringify(dataBody),
             headers: {'Content-Type': 'application/json'}
         };
         this.setState(() => this.initialState);
         return fetch('/api/haiku/', requestOptions)
             .then(response => response.json())
             .then(data => console.log(`Data: ${data}`))
-            //.then(location.replace('/')); // reloads this page
+            //.then(location.replace('/')); // reloads this 
     }
 
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
-                <textarea name="haikuText" rows="3" cols="90" wrap="hard" maxLength="270" required></textarea>
+                <textarea name="haikuText" rows="3" cols="90" wrap="hard" maxLength="270" onChange={this.handleInputChange} required></textarea>
                 <br></br>
                 <input type="submit" value="Submit"/>
             </form>

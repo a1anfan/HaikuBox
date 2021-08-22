@@ -34,11 +34,8 @@ export default class Login extends Component {
       username: this.state.username,
       password: this.state.password,
     };
-    
-    // const loginResult = await LoginService(data);
-    //console.log(loginResult.res.token);
-    localStorage.setItem('access_token', loginResult.json());
-	// localStorage.setItem('username', loginResult.username);
+
+    const loginResult = await LoginService(data);
     if (loginResult !== 200) {
       this.setState({
         error: true,

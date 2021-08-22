@@ -77,7 +77,6 @@ router.post('/haiku', (req, res) => {
     .then(userToUpdate => {
       if (!userToUpdate) res.sendStatus(204); // 'No content' status
       else {
-        console.log("uhhhh haiku about to be pushed is " + req.body.haiku);
         let newHaikuSchema = new Haiku({
           haiku: req.body.haiku,
           dateCreated: Date.now()
@@ -115,12 +114,7 @@ router.post('/login', (req, res) => {
                 if (err) {
                   console.log(err);
                 } else {
-                  console.log(token);
-                  console.log(user.username);
                   res.json({token: token, username: user.username});
-                  // localStorage.setItem('access_token', token);
-                  // localStorage.setItem('username', user.username);
-                  console.log("Put stuff in local storage");
                 }
               }))
               .then(console.log("User has successfully logged in and token has been generated."));
@@ -133,31 +127,17 @@ router.post('/validateUsername', (req, res) => {
     .then(user => user ? res.sendStatus(204) : res.sendStatus(200));
 });
 
-// router.get('/users', (req, res) => {
-//   User.find((err, users) => {
-//     if(err) {
-//       console.log(err);
-//       res.send([]);
-//     } else {
-//       res.json(users);
-//     }
-//   });
-// });
-
 router.get('/me', verifyToken, (req, res) => {
-  console.log("zombs nation " + req.headers['token']);
   jwt.verify(req.headers['token'], 'secret_key', (err, authData) => {
     if (err) { // Token is invalid
       console.log(err);
       res.sendStatus(403); // Send 'Forbidden' status
-      // TODO: Redirect to login page
+      window.location.replace('/login')
     } else {
-      console.log("tha user name isss " + req.headers['username']);
       User.findOne({ username: req.headers['username'] })
         .then(user => {
           if (!user) res.sendStatus(204); // Send 'No Content' status
           else {
-            console.log("the haikus are... " + user.haikus);
             res.json(user.haikus);
           }
         });
@@ -166,12 +146,8 @@ router.get('/me', verifyToken, (req, res) => {
 })
 
 function verifyToken(req, res, next) {
-  console.log("weesypoo " + req.headers['token']);
   const bearerHeader = req.headers['token'];
-  // console.log(bearerHeader + " haiiiii westoo");
-  // console.log(typeof bearerHeader);
-  // haiiii
-  if (typeof bearerHeader !== undefined) {
+  if (typeof bearerHeader !== undefined) { // Token is valid
     const bearer = bearerHeader.split(' ');
     bearerToken = bearer[1]; // Parses the header to get the token
     req.token = bearerToken;
