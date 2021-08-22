@@ -46,7 +46,7 @@ export default class Login extends Component {
         loginSuccess: true,
         error: false,
       });
-      //location.replace('/');
+      location.replace('/');
     }  
   };
 

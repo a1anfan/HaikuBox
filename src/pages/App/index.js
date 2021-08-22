@@ -14,6 +14,7 @@ class App extends Component {
         <br></br>
         <LogoutButton />
         <br></br>
+        <Link to="/me">Profile</Link>
         <br></br>
         <HaikuForm />
       </div>

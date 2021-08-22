@@ -31,7 +31,7 @@ export default class AddPersonForm extends Component {
         return fetch('/api/haiku/', requestOptions)
             .then(response => response.json())
             .then(data => console.log(`Data: ${data}`))
-            //.then(location.replace('/')); // reloads this 
+            .then(location.reload()); // reloads the page
     }
 
     render() {

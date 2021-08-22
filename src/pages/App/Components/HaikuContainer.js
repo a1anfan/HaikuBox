@@ -27,7 +27,6 @@ export default class Me extends Component {
 				}
 
 				response.json().then(function(data) {
-					console.log(data);
 					currentComponent.setState({haikus: data});
 				});
 			}
