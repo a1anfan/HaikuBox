@@ -149,7 +149,7 @@ function verifyToken(req, res, next) {
   const bearerHeader = req.headers['token'];
   if (typeof bearerHeader !== undefined) { // Token is valid
     const bearer = bearerHeader.split(' ');
-    bearerToken = bearer[1]; // Parses the header to get the token
+    bearerToken = bearer[1]; // Parses the header to get JWT token
     req.token = bearerToken;
     next();
   } else { // Token is invalid
