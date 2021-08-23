@@ -1,3 +1,3 @@
-Simple MERN app in vanilla JavaScript\
+HaikuJar\
 Backend: Node, Express, MongoDB\
 Frontend: React
