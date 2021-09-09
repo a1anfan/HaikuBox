@@ -8,7 +8,7 @@ export const UserRegistration = data => {
 
     data["password"] = hash;
 
-    return axios.post('http://localhost:8999/api/register', data)
+    return axios.post('/api/register', data)
         .then((res) => {
             localStorage.setItem('access_token', res.token)
             localStorage.setItem('username', res.username)
@@ -17,6 +17,6 @@ export const UserRegistration = data => {
 };
 
 export const UsernameValidation = data => (
-    axios.post('http://localhost:8999/api/validateUsername', data)
+    axios.post('/api/validateUsername', data)
     .then(exist => exist.status)
 )

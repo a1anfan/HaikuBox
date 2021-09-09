@@ -8,7 +8,7 @@ var mongoose   = require('mongoose');
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 const { Schema } = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1/my_database', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://alan:westoo@blog.3ddjx.mongodb.net/test', { useNewUrlParser: true, useUnifiedTopology: true });
 
 
 //Define schemas
@@ -98,7 +98,7 @@ router.post('/register', (req, res) => {
         res.sendStatus(200);
     })
     .catch(err => {
-        res.status(400).send("Failed to store to database");
+        res.status(400).send("Failed to store to database. Error: " + err);
     });
 });
 

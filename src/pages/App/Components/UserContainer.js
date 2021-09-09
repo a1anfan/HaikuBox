@@ -10,7 +10,7 @@ export default class UserContainer extends Component {
 
 	componentDidMount() {
 		let currentComponent = this;
-		fetch('http://localhost:8999/api/users/')
+		fetch('/api/users/')
 			.then(
 				function(response) {
 				if (response.status !== 200) {

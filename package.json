@@ -22,13 +22,13 @@
   },
   "scripts": {
     "build": "react-scripts build",
-    "server": "nodemon server",
+    "server": "node server",
     "dev": "nodemon server & react-scripts start",
-    "start": "react-scripts build && sudo su -c \"pm2 start process.yml\" root && echo To kill, run \\\"npm run stop\\\"",
+    "start": "sudo su -c \"pm2 start process.yml\" root",
     "stop": "sudo su -c \"pm2 stop server\" root",
     "eject": "react-scripts eject"
   },
-  "description": "A simple MERN stack template built with create-react-app",
+  "description": "Compose and read haikus.",
   "main": "index.js",
   "author": "",
   "license": "ISC",
